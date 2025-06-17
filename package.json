@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.4.1",
-    "asana": "^3.0.12"
+    "asana": "^3.0.12",
+    "jsdom": "^21.0.0"
   }
 }
