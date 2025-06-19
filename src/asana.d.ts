@@ -78,6 +78,7 @@ declare module 'asana' {
       modified_since?: string;
       opt_fields?: string[];
     }): Promise<{ data: TaskBase[] }>;
+    getSubtasksForTask(taskGid: string, opts?: any): Promise<{ data: TaskBase[] }>;
     getTasksForProject(projectGid: string, opts?: any): Promise<{ data: TaskBase[] }>;
     updateTask(body: any, taskGid: string, opts?: any): Promise<{ data: TaskBase }>;
     addDependenciesForTask(body: any, taskGid: string): Promise<{ data: {} }>;

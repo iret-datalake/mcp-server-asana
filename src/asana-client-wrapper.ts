@@ -1,4 +1,5 @@
 import Asana from 'asana';
+import { get } from 'http';
 
 export class AsanaClientWrapper {
   private workspaces: any;
@@ -114,8 +115,17 @@ export class AsanaClientWrapper {
     return transformedData;
   }
 
-  async getTask(taskId: string, opts: any = {}) {
-    const response = await this.tasks.getTask(taskId, opts);
+  async getTask(task_gid: string, opts: any = {}) {
+    const response = await this.tasks.getTask(task_gid, opts);
+    // get the subtasks for the task
+    const subtasksResponse = this.getSubtasksForTask(task_gid);
+    response.data.subtasks = subtasksResponse
+
+    return response.data;
+  }
+
+  async getSubtasksForTask(task_gid: string, opts: any = {}) {
+    const response = await this.tasks.getSubtasksForTask(task_gid, opts)
     return response.data;
   }
 
@@ -140,12 +150,12 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async getStoriesForTask(taskId: string, opts: any = {}) {
-    const response = await this.stories.getStoriesForTask(taskId, opts);
+  async getStoriesForTask(task_gid: string, opts: any = {}) {
+    const response = await this.stories.getStoriesForTask(task_gid, opts);
     return response.data;
   }
 
-  async updateTask(taskId: string, data: any) {
+  async updateTask(task_gid: string, data: any) {
     const body = {
       data: {
         ...data,
@@ -156,7 +166,7 @@ export class AsanaClientWrapper {
       }
     };
     const opts = {};
-    const response = await this.tasks.updateTask(body, taskId, opts);
+    const response = await this.tasks.updateTask(body, task_gid, opts);
     return response.data;
   }
 
@@ -197,7 +207,7 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async createTaskStory(taskId: string, text: string | null = null, opts: any = {}, html_text: string | null = null) {
+  async createTaskStory(task_gid: string, text: string | null = null, opts: any = {}, html_text: string | null = null) {
     const options = opts.opt_fields ? opts : {};
     const data: any = {};
 
@@ -210,42 +220,42 @@ export class AsanaClientWrapper {
     }
 
     const body = { data };
-    const response = await this.stories.createStoryForTask(body, taskId, options);
+    const response = await this.stories.createStoryForTask(body, task_gid, options);
     return response.data;
   }
 
-  async addTaskDependencies(taskId: string, dependencies: string[]) {
+  async addTaskDependencies(task_gid: string, dependencies: string[]) {
     const body = {
       data: {
         dependencies: dependencies
       }
     };
-    const response = await this.tasks.addDependenciesForTask(body, taskId);
+    const response = await this.tasks.addDependenciesForTask(body, task_gid);
     return response.data;
   }
 
-  async addTaskDependents(taskId: string, dependents: string[]) {
+  async addTaskDependents(task_gid: string, dependents: string[]) {
     const body = {
       data: {
         dependents: dependents
       }
     };
-    const response = await this.tasks.addDependentsForTask(body, taskId);
+    const response = await this.tasks.addDependentsForTask(body, task_gid);
     return response.data;
   }
 
-  async createSubtask(parentTaskId: string, data: any, opts: any = {}) {
+  async createSubtask(parenttask_gid: string, data: any, opts: any = {}) {
     const taskData = {
       data: {
         ...data
       }
     };
-    const response = await this.tasks.createSubtaskForTask(taskData, parentTaskId, opts);
+    const response = await this.tasks.createSubtaskForTask(taskData, parenttask_gid, opts);
     return response.data;
   }
 
-  async setParentForTask(data: any, taskId: string, opts: any = {}) {
-    const response = await this.tasks.setParentForTask({ data }, taskId, opts);
+  async setParentForTask(data: any, task_gid: string, opts: any = {}) {
+    const response = await this.tasks.setParentForTask({ data }, task_gid, opts);
     return response.data;
   }
 
@@ -270,14 +280,14 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async getMultipleTasksByGid(taskIds: string[], opts: any = {}) {
-    if (taskIds.length > 25) {
+  async getMultipleTasksByGid(task_gids: string[], opts: any = {}) {
+    if (task_gids.length > 25) {
       throw new Error("Maximum of 25 task IDs allowed");
     }
 
     // Use Promise.all to fetch tasks in parallel
     const tasks = await Promise.all(
-      taskIds.map(taskId => this.getTask(taskId, opts))
+      task_gids.map(task_gid => this.getTask(task_gid, opts))
     );
 
     return tasks;

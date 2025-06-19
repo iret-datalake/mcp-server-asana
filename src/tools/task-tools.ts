@@ -247,7 +247,7 @@ export const getTaskTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to retrieve"
       },
@@ -256,7 +256,7 @@ export const getTaskTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["task_id"]
+    required: ["task_gid"]
   }
 };
 
@@ -402,6 +402,25 @@ export const createSubtaskTool: Tool = {
     required: ["parent_task_id", "name"]
   }
 };
+
+export const getSubtasksTool: Tool = {
+  name: "asana_get_subtasks",
+  description: "Get all subtasks for a specific task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task gid to retrieve"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_gid"]
+  }
+}; 
 
 export const getMultipleTasksByGidTool: Tool = {
   name: "asana_get_multiple_tasks_by_gid",

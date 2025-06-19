@@ -21,7 +21,8 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
-  getMultipleTasksByGidTool
+  getMultipleTasksByGidTool,
+  getSubtasksTool
 } from './tools/task-tools.js';
 import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
 import {
@@ -58,6 +59,7 @@ const all_tools: Tool[] = [
   setParentForTaskTool,
   getTasksForTagTool,
   getTagsForWorkspaceTool,
+  getSubtasksTool
 ];
 
 // List of tools that only read Asana state
@@ -74,7 +76,8 @@ const READ_ONLY_TOOLS = [
   'asana_get_project_sections',
   'asana_get_multiple_tasks_by_gid',
   'asana_get_tasks_for_tag',
-  'asana_get_tags_for_workspace'
+  'asana_get_tags_for_workspace',
+  'asana_get_subtasks'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -130,8 +133,16 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_get_task": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_subtasks": {
           const { task_id, ...opts } = args;
-          const response = await asanaClient.getTask(task_id, opts);
+          const response = await asanaClient.getSubtasksForTask(task_id, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
