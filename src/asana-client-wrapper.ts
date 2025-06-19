@@ -117,11 +117,23 @@ export class AsanaClientWrapper {
 
   async getTask(task_gid: string, opts: any = {}) {
     const response = await this.tasks.getTask(task_gid, opts);
-    // get the subtasks for the task
-    const subtasksResponse = this.getSubtasksForTask(task_gid);
-    response.data.subtasks = subtasksResponse
 
-    return response.data;
+    const {custom_fields , ...transformedData} = response.data
+    // get the subtasks for the task
+    transformedData.subtasks = await this.getSubtasksForTask(task_gid);
+    // get the stories comments for the task
+    const stories = await this.getStoriesForTask(task_gid);
+    transformedData.comments = stories.filter(
+      (story: any) => 
+        story.resource_subtype === 'comment_added'
+    );
+
+    transformedData.timeline = stories.filter(
+      (story: any) => 
+        story.resource_subtype !== 'comment_added'
+    );
+
+    return transformedData;
   }
 
   async getSubtasksForTask(task_gid: string, opts: any = {}) {
@@ -153,6 +165,26 @@ export class AsanaClientWrapper {
   async getStoriesForTask(task_gid: string, opts: any = {}) {
     const response = await this.stories.getStoriesForTask(task_gid, opts);
     return response.data;
+  }
+
+  async getCommentsForTask(task_gid: string, opts: any = {}) {
+    const response = await this.getStoriesForTask(task_gid, opts);
+    // Filter stories to only include comments
+    const comments = response.data.filter(
+      (story: any) => 
+        story.resource_subtype === 'comment_added'
+    );
+    return comments;
+  }
+
+  async getTimelineForTask(task_gid: string, opts: any = {}) {
+    const response = await await this.getStoriesForTask(task_gid, opts);
+    // Filter stories to only include timeline events
+    const timeline = response.data.filter(
+      (story: any) => 
+        story.resource_subtype !== 'comment_added'
+    );
+    return timeline;
   }
 
   async updateTask(task_gid: string, data: any) {

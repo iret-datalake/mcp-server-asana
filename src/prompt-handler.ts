@@ -22,7 +22,7 @@ const PROMPTS: Record<string, PromptDefinition> = {
     description: "Get a summary and status update for a task based on its notes, custom fields and comments",
     arguments: [
       {
-        name: "task_id",
+        name: "task_gid",
         description: "The task ID to get summary for",
         required: true
       }
@@ -33,7 +33,7 @@ const PROMPTS: Record<string, PromptDefinition> = {
     description: "Analyze if a task description contains all necessary details for completion",
     arguments: [
       {
-        name: "task_id",
+        name: "task_gid",
         description: "The task ID or URL to analyze",
         required: true
       }
@@ -102,7 +102,7 @@ export function createPromptHandlers(asanaClient: AsanaClientWrapper): PromptHan
       }
 
       if (request.params.name === "task-summary") {
-        const taskId = request.params.arguments?.task_id;
+        const taskId = request.params.arguments?.task_gid;
         if (!taskId) {
           throw new Error("Task ID is required");
         }
@@ -149,7 +149,7 @@ Please include:
           ]
         };
       } else if (request.params.name === "task-completeness") {
-        const taskId = request.params.arguments?.task_id;
+        const taskId = request.params.arguments?.task_gid;
         if (!taskId) {
           throw new Error("Task ID or Task URL is required");
         }

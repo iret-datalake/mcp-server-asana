@@ -6,7 +6,7 @@ export const getStoriesForTaskTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to get stories for"
       },
@@ -15,7 +15,7 @@ export const getStoriesForTaskTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["task_id"]
+    required: ["task_gid"]
   }
 };
 
@@ -25,7 +25,7 @@ export const createTaskStoryTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to add the story to"
       },
@@ -42,6 +42,6 @@ export const createTaskStoryTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["task_id"]
+    required: ["task_gid"]
   }
 };

@@ -6,7 +6,7 @@ export const addTaskDependenciesTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to add dependencies to"
       },
@@ -18,7 +18,7 @@ export const addTaskDependenciesTool: Tool = {
         description: "Array of task IDs that this task depends on"
       }
     },
-    required: ["task_id", "dependencies"]
+    required: ["task_gid", "dependencies"]
   }
 };
 
@@ -28,7 +28,7 @@ export const addTaskDependentsTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to add dependents to"
       },
@@ -40,7 +40,7 @@ export const addTaskDependentsTool: Tool = {
         description: "Array of task IDs that depend on this task"
       }
     },
-    required: ["task_id", "dependents"]
+    required: ["task_gid", "dependents"]
   }
 };
 
@@ -65,7 +65,7 @@ export const setParentForTaskTool: Tool = {
           description: "A subtask of the parent to insert the task before, or null to insert at the end of the list. Cannot be used with insert_after. The task must already be set as a subtask of that parent."
         },
       },
-      task_id: {
+      task_gid: {
         type: "string",
         description: "The task ID to operate on"
       },
@@ -76,6 +76,6 @@ export const setParentForTaskTool: Tool = {
         }
       }
     },
-    required: ["task_id", "data"]
+    required: ["task_gid", "data"]
   }
 };

@@ -22,7 +22,9 @@ import {
   updateTaskTool,
   createSubtaskTool,
   getMultipleTasksByGidTool,
-  getSubtasksTool
+  getSubtasksTool,
+  getCommentsForTaskTool,
+  getTimelineForTaskTool
 } from './tools/task-tools.js';
 import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
 import {
@@ -59,7 +61,9 @@ const all_tools: Tool[] = [
   setParentForTaskTool,
   getTasksForTagTool,
   getTagsForWorkspaceTool,
-  getSubtasksTool
+  getSubtasksTool,
+  getCommentsForTaskTool,
+  getTimelineForTaskTool
 ];
 
 // List of tools that only read Asana state
@@ -77,7 +81,9 @@ const READ_ONLY_TOOLS = [
   'asana_get_multiple_tasks_by_gid',
   'asana_get_tasks_for_tag',
   'asana_get_tags_for_workspace',
-  'asana_get_subtasks'
+  'asana_get_subtasks',
+  'asana_get_comments_for_task',
+  'asana_get_timeline_for_task'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -141,8 +147,8 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_get_subtasks": {
-          const { task_id, ...opts } = args;
-          const response = await asanaClient.getSubtasksForTask(task_id, opts);
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getSubtasksForTask(task_gid, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
@@ -189,17 +195,17 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_get_task_stories": {
-          const { task_id, ...opts } = args;
-          const response = await asanaClient.getStoriesForTask(task_id, opts);
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getStoriesForTask(task_gid, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
         }
 
         case "asana_update_task": {
-          const { task_id, ...taskData } = args;
+          const { task_gid, ...taskData } = args;
           try {
-            const response = await asanaClient.updateTask(task_id, taskData);
+            const response = await asanaClient.updateTask(task_gid, taskData);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
@@ -293,7 +299,7 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_create_task_story": {
-          const { task_id, text, html_text, ...opts } = args;
+          const { task_gid, text, html_text, ...opts } = args;
 
           try {
             // Validate if html_text is provided
@@ -313,7 +319,7 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               }
             }
 
-            const response = await asanaClient.createTaskStory(task_id, text, opts, html_text);
+            const response = await asanaClient.createTaskStory(task_gid, text, opts, html_text);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
@@ -335,23 +341,23 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_add_task_dependencies": {
-          const { task_id, dependencies } = args;
-          const response = await asanaClient.addTaskDependencies(task_id, dependencies);
+          const { task_gid, dependencies } = args;
+          const response = await asanaClient.addTaskDependencies(task_gid, dependencies);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
         }
 
         case "asana_add_task_dependents": {
-          const { task_id, dependents } = args;
-          const response = await asanaClient.addTaskDependents(task_id, dependents);
+          const { task_gid, dependents } = args;
+          const response = await asanaClient.addTaskDependents(task_gid, dependents);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
         }
 
         case "asana_create_subtask": {
-          const { parent_task_id, opt_fields, ...taskData } = args;
+          const { parent_task_gid, opt_fields, ...taskData } = args;
 
           try {
             // Validate html_notes if provided
@@ -371,7 +377,7 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               }
             }
 
-            const response = await asanaClient.createSubtask(parent_task_id, taskData, { opt_fields });
+            const response = await asanaClient.createSubtask(parent_task_gid, taskData, { opt_fields });
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
@@ -393,11 +399,11 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_get_multiple_tasks_by_gid": {
-          const { task_ids, ...opts } = args;
+          const { task_gids, ...opts } = args;
           // Handle both array and string input
-          const taskIdList = Array.isArray(task_ids)
-            ? task_ids
-            : task_ids.split(',').map((id: string) => id.trim()).filter((id: string) => id.length > 0);
+          const taskIdList = Array.isArray(task_gids)
+            ? task_gids
+            : task_gids.split(',').map((id: string) => id.trim()).filter((id: string) => id.length > 0);
           const response = await asanaClient.getMultipleTasksByGid(taskIdList, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
@@ -405,14 +411,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_set_parent_for_task": {
-          let { data, task_id, opts } = args;
+          let { data, task_gid, opts } = args;
           if (typeof data == "string") {
             data = JSON.parse(data);
           }
           if (typeof opts == "string") {
             opts = JSON.parse(opts);
           }
-          const response = await asanaClient.setParentForTask(data, task_id, opts);
+          const response = await asanaClient.setParentForTask(data, task_gid, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
@@ -429,6 +435,22 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_get_tags_for_workspace": {
           const { workspace_gid, ...opts } = args;
           const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_comments_for_task": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getCommentsForTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_timeline_for_task": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getTimelineForTask(task_gid, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };

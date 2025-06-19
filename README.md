@@ -84,7 +84,7 @@ Another example:
 4. `asana_get_task`
     * Get detailed information about a specific task
     * Required input:
-        * task_id (string): The task ID to retrieve
+        * task_gid (string): The task ID to retrieve
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Detailed task information
@@ -107,14 +107,14 @@ Another example:
 6. `asana_get_task_stories`
     * Get comments and stories for a specific task
     * Required input:
-        * task_id (string): The task ID to get stories for
+        * task_gid (string): The task ID to get stories for
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of task stories/comments
 7. `asana_update_task`
     * Update an existing task's details
     * Required input:
-        * task_id (string): The task ID to update
+        * task_gid (string): The task ID to update
     * Optional input:
         * name (string): New name for the task
         * notes (string): New description for the task
@@ -148,7 +148,7 @@ Another example:
 11. `asana_create_task_story`
     * Create a comment or story on a task
     * Required input:
-        * task_id (string): The task ID to add the story to
+        * task_gid (string): The task ID to add the story to
         * text (string): The text content of the story/comment
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
@@ -156,19 +156,19 @@ Another example:
 12. `asana_add_task_dependencies`
     * Set dependencies for a task
     * Required input:
-        * task_id (string): The task ID to add dependencies to
+        * task_gid (string): The task ID to add dependencies to
         * dependencies (array of strings): Array of task IDs that this task depends on
     * Returns: Updated task dependencies
 13. `asana_add_task_dependents`
     * Set dependents for a task (tasks that depend on this task)
     * Required input:
-        * task_id (string): The task ID to add dependents to
+        * task_gid (string): The task ID to add dependents to
         * dependents (array of strings): Array of task IDs that depend on this task
     * Returns: Updated task dependents
 14. `asana_create_subtask`
     * Create a new subtask for an existing task
     * Required input:
-        * parent_task_id (string): The parent task ID to create the subtask under
+        * parent_task_gid (string): The parent task ID to create the subtask under
         * name (string): Name of the subtask
     * Optional input:
         * notes (string): Description of the subtask
@@ -179,7 +179,7 @@ Another example:
 15. `asana_get_multiple_tasks_by_gid`
     * Get detailed information about multiple tasks by their GIDs (maximum 25 tasks)
     * Required input:
-        * task_ids (array of strings or comma-separated string): Task GIDs to retrieve (max 25)
+        * task_gids (array of strings or comma-separated string): Task GIDs to retrieve (max 25)
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of detailed task information
@@ -218,7 +218,7 @@ Another example:
 20. `asana_set_parent_for_task`
     * Set the parent of a task and position the subtask within the other subtasks of that parent
     * Required input:
-        * task_id (string): The task ID to operate on
+        * task_gid (string): The task ID to operate on
         * data (object):
             * parent (string): The new parent of the task, or null for no parent
     * Optional input:
@@ -251,13 +251,13 @@ Another example:
 1. `task-summary`
     * Get a summary and status update for a task based on its notes, custom fields and comments
     * Required input:
-        * task_id (string): The task ID to get summary for
+        * task_gid (string): The task ID to get summary for
     * Returns: A detailed prompt with instructions for generating a task summary
 
 2. `task-completeness`
     * Analyze if a task description contains all necessary details for completion
     * Required input:
-        * task_id (string): The task ID or URL to analyze
+        * task_gid (string): The task ID or URL to analyze
     * Returns: A detailed prompt with instructions for analyzing task completeness
 
 3. `create-task`
