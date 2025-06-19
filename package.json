@@ -37,11 +37,11 @@
   "author": "Christian Roy (Original Author), Fork Maintainer",
   "license": "MIT",
   "devDependencies": {
-    "@modelcontextprotocol/inspector": "^0.4.0",
+    "@modelcontextprotocol/inspector": "^0.14.3",
     "@tsconfig/node20": "^20.1.4",
     "@types/jsdom": "^21.1.7",
     "@types/node": "^22.10.1",
-    "esbuild": "^0.24.0",
+    "esbuild": "^0.25.5",
     "esbuild-register": "^3.6.0",
     "jsdom": "^26.0.0",
     "ts-node": "^10.9.2",
