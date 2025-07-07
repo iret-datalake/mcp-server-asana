@@ -82,7 +82,7 @@ export const setParentForTaskTool: Tool = {
 
 export const getTaskDependenciesTool: Tool = {
   name: "asana_get_task_dependencies",
-  description: "Get the dependencies of a task",
+  description: "Get the dependencies of a task (tasks that this task depends on) . In japanese , also called as '先行タスク'",
   inputSchema: {
     type: "object",
     properties: {
@@ -103,7 +103,7 @@ export const getTaskDependenciesTool: Tool = {
 
 export const getTaskDependentsTool: Tool = {
   name: "asana_get_task_dependents",
-  description: "Get the dependents of a task (tasks that depend on this task)",
+  description: "Get the dependents of a task (tasks that depend on this task), In japanese , also called as '後続タスク'",
   inputSchema: {
     type: "object",
     properties: {
