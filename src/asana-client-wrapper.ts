@@ -139,6 +139,11 @@ export class AsanaClientWrapper {
         story.resource_subtype !== 'comment_added'
     );
 
+    transformedData.permalink = `https://app.asana.com/0/0/${task_gid}`;
+
+    transformedData.dependencies = await this.getTaskDependencies(task_gid);
+    transformedData.dependents = await this.getTaskDependents(task_gid);
+
     return transformedData;
   }
 
@@ -294,6 +299,16 @@ export class AsanaClientWrapper {
 
   async setParentForTask(data: any, task_gid: string, opts: any = {}) {
     const response = await this.tasks.setParentForTask({ data }, task_gid, opts);
+    return response.data;
+  }
+
+  async getTaskDependencies(task_gid: string, opts: any = {}) {
+    const response = await this.tasks.getDependenciesForTask(task_gid, opts);
+    return response.data;
+  }
+
+  async getTaskDependents(task_gid: string, opts: any = {}) {
+    const response = await this.tasks.getDependentsForTask(task_gid, opts);
     return response.data;
   }
 

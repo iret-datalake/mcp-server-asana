@@ -30,7 +30,9 @@ import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.j
 import {
   addTaskDependenciesTool,
   addTaskDependentsTool,
-  setParentForTaskTool
+  setParentForTaskTool,
+  getTaskDependenciesTool,
+  getTaskDependentsTool
 } from './tools/task-relationship-tools.js';
 import {
   getStoriesForTaskTool,
@@ -59,6 +61,8 @@ const all_tools: Tool[] = [
   createProjectStatusTool,
   deleteProjectStatusTool,
   setParentForTaskTool,
+  getTaskDependenciesTool,
+  getTaskDependentsTool,
   getTasksForTagTool,
   getTagsForWorkspaceTool,
   getSubtasksTool,
@@ -83,7 +87,9 @@ const READ_ONLY_TOOLS = [
   'asana_get_tags_for_workspace',
   'asana_get_subtasks',
   'asana_get_comments_for_task',
-  'asana_get_timeline_for_task'
+  'asana_get_timeline_for_task',
+  'asana_get_task_dependencies',
+  'asana_get_task_dependents'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -451,6 +457,22 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_get_timeline_for_task": {
           const { task_gid, ...opts } = args;
           const response = await asanaClient.getTimelineForTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_task_dependencies": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getTaskDependencies(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_task_dependents": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getTaskDependents(task_gid, opts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };

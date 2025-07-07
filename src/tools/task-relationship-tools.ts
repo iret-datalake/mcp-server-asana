@@ -79,3 +79,45 @@ export const setParentForTaskTool: Tool = {
     required: ["task_gid", "data"]
   }
 };
+
+export const getTaskDependenciesTool: Tool = {
+  name: "asana_get_task_dependencies",
+  description: "Get the dependencies of a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task ID to get dependencies for"
+      },
+      opts: {
+        opt_fields: {
+          type: "string",
+          description: "Comma-separated list of optional fields to include"
+        }
+      }
+    },
+    required: ["task_gid"]
+  }
+}
+
+export const getTaskDependentsTool: Tool = {
+  name: "asana_get_task_dependents",
+  description: "Get the dependents of a task (tasks that depend on this task)",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task ID to get dependents for"
+      },
+      opts: {
+        opt_fields: {
+          type: "string",
+          description: "Comma-separated list of optional fields to include"
+        }
+      }
+    },
+    required: ["task_gid"]
+  }
+};
