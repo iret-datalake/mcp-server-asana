@@ -363,10 +363,6 @@ export const getTaskTool: Tool = {
                 resource_subtype: { type: "string" }
             }
         },
-        permalink: { 
-          type: "string" ,
-          description: "The URL to view the task in Asana"
-        },
         projects: { type: "array", items: { type: "object" } ,
           description: "List of projects the task is associated with"
         },
