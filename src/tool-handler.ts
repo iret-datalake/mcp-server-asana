@@ -131,8 +131,8 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_search_tasks": {
-          const { workspace, ...searchOpts } = args;
-          const response = await asanaClient.searchTasks(workspace, searchOpts);
+          const { ...searchOpts } = args;
+          const response = await asanaClient.searchTasks(searchOpts);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };

@@ -2,7 +2,7 @@ import { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 export const searchTasksTool: Tool = {
   name: "asana_search_tasks",
-  description: "Search tasks in a workspace with advanced filtering options",
+  description: "Search tasks with advanced filtering options",
   inputSchema: {
     type: "object",
     properties: {
@@ -237,7 +237,7 @@ export const searchTasksTool: Tool = {
 Example: { "12345.value": "high", "67890.contains": "urgent" }`
       }
     },
-    required: ["workspace"]
+    // required: ["workspace"]
   }
 };
 
@@ -363,7 +363,8 @@ export const getTaskTool: Tool = {
                 resource_subtype: { type: "string" }
             }
         },
-        permalink_url: { type: "string" ,
+        permalink: { 
+          type: "string" ,
           description: "The URL to view the task in Asana"
         },
         projects: { type: "array", items: { type: "object" } ,

@@ -38,9 +38,10 @@ export class AsanaClientWrapper {
     return response.data.filter((project: any) => pattern.test(project.name));
   }
 
-  async searchTasks(workspace: string, searchOpts: any = {}) {
+  async searchTasks( searchOpts: any = {}) {
     // Extract known parameters
     const {
+      input_workspace,
       text,
       resource_subtype,
       completed,
@@ -88,6 +89,7 @@ export class AsanaClientWrapper {
     if (sort_by) searchParams.sort_by = sort_by;
     if (sort_ascending !== undefined) searchParams.sort_ascending = sort_ascending;
     if (opt_fields) searchParams.opt_fields = opt_fields;
+    const workspace = input_workspace || process.env.ASANA_DEFAULT_WORKSPACE || 'default_workspace_gid'
 
     const response = await this.tasks.searchTasksForWorkspace(workspace, searchParams);
 
