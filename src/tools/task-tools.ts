@@ -258,178 +258,178 @@ export const getTaskTool: Tool = {
     },
     required: ["task_gid"]
   },
-  outputSchema: {
-    type: "object",
-    properties: {
-        gid: { 
-          type: "string",
-          description: "The unique identifier for the task"
-        },
-        actual_time_minutes: { 
-          type: "number", nullable: true ,
-          description: "The actual time spent on the task in minutes"
-        },
-        assignee: {
-            type: "object",
-            description: "The user assigned to the task",
-            properties: {
-                gid: { 
-                  type: "string",
-                  description: "The unique identifier for the user"
-                },
-                name: { 
-                  type: "string" ,
-                  description: "The name of the user"
-                },
-                resource_type: { 
-                  type: "string",
-                  description: "The type of resource, e.g., 'user'"
-                }
-            }
-        },
-        assignee_status: { 
-          type: "string" ,
-          description: "The status of the assignee, e.g., 'active', 'away', 'locked', 'deactivated'"
-        },
-        completed: { 
-          type: "boolean",
-          description: "Indicates whether the task is completed"
-         },
-        completed_at: { 
-          type: "string", nullable: true ,
-          description: "The date and time when the task was completed, in ISO 8601 format"
-        },
-        created_at: { 
-          type: "string", 
-          description: "The date and time when the task was created, in ISO 8601 format" 
-        }, 
-        due_at: { 
-          type: "string", nullable: true , 
-          description: "The date and time when the task is due, in ISO 8601 format" 
-        },
-        due_on: { 
-          type: "string", nullable: true ,
-          description: "The date when the task is due, in YYYY-MM-DD format"
-        },
-        followers: {
-            type: "array",
-            description: "List of users following the task",
-            items: {
-                type: "object",
-                properties: {
-                    gid: { type: "string" },
-                    name: { type: "string" },
-                    resource_type: { type: "string" }
-                }
-            }
-        },
-        hearted: { type: "boolean" ,
-          description: "Indicates whether the task has been hearted by the user"
-        },
-        hearts: { type: "array", items: { type: "object" } ,
-          description: "List of users who have hearted the task"
-        },
-        liked: { type: "boolean" ,
-          description: "Indicates whether the task has been liked by the user"
-        },
-        likes: { type: "array", items: { type: "object" } ,
-          description: "List of users who have liked the task"
-        },
-        memberships: { type: "array", items: { type: "object" } ,
-          description: "List of memberships associated with the task, including projects and sections"
-        },
-        modified_at: { type: "string" ,
-          description: "The date and time when the task was last modified, in ISO 8601 format"
-        },
-        name: { type: "string" ,
-          description: "The name of the task"
-        },
-        notes: { type: "string" ,
-          description: "The description or notes for the task"
-        },
-        num_hearts: { type: "number" ,
-          description: "The number of hearts the task has received"
-        },
-        num_likes: { type: "number" ,
-          description: "The number of likes the task has received"
-        },
-        parent: {
-            type: "object",
-            description: "The parent task if this is a subtask",
-            properties: {
-                gid: { type: "string" },
-                name: { type: "string" },
-                resource_type: { type: "string" },
-                resource_subtype: { type: "string" }
-            }
-        },
-        projects: { type: "array", items: { type: "object" } ,
-          description: "List of projects the task is associated with"
-        },
-        resource_type: { type: "string" ,
-          description: "The type of resource, e.g., 'task'"
-        },
-        start_at: { type: "string", nullable: true },
-        start_on: { type: "string", nullable: true },
-        tags: { type: "array", items: { type: "object" } },
-        resource_subtype: { type: "string" },
-        workspace: {
-            type: "object",
-            properties: {
-                gid: { type: "string" },
-                name: { type: "string" },
-                resource_type: { type: "string" }
-            }
-        },
-        subtasks: { type: "array", items: { type: "object" } },
-        comments: {
-            type: "array",
-            description: "List of comments on the task",
-            items: {
-                type: "object",
-                properties: {
-                    gid: { type: "string" },
-                    created_at: { type: "string" },
-                    created_by: {
-                        type: "object",
-                        properties: {
-                            gid: { type: "string" },
-                            name: { type: "string" },
-                            resource_type: { type: "string" }
-                        }
-                    },
-                    resource_type: { type: "string" },
-                    text: { type: "string" },
-                    type: { type: "string" },
-                    resource_subtype: { type: "string" }
-                }
-            }
-        },
-        timeline: {
-            type: "array",
-            description: "List of timeline events for the task, status updates such as assignments, completions, etc.",
-            items: {
-                type: "object",
-                properties: {
-                    gid: { type: "string" },
-                    created_at: { type: "string" },
-                    created_by: {
-                        type: "object",
-                        properties: {
-                            gid: { type: "string" },
-                            name: { type: "string" },
-                            resource_type: { type: "string" }
-                        }
-                    },
-                    resource_type: { type: "string" },
-                    text: { type: "string" },
-                    type: { type: "string" },
-                    resource_subtype: { type: "string" }
-                }
-            }
-        }
-    }
-  }
+  // outputSchema: {
+  //   type: "object",
+  //   properties: {
+  //       gid: { 
+  //         type: "string",
+  //         description: "The unique identifier for the task"
+  //       },
+  //       actual_time_minutes: { 
+  //         type: "number", nullable: true ,
+  //         description: "The actual time spent on the task in minutes"
+  //       },
+  //       assignee: {
+  //           type: "object",
+  //           description: "The user assigned to the task",
+  //           properties: {
+  //               gid: { 
+  //                 type: "string",
+  //                 description: "The unique identifier for the user"
+  //               },
+  //               name: { 
+  //                 type: "string" ,
+  //                 description: "The name of the user"
+  //               },
+  //               resource_type: { 
+  //                 type: "string",
+  //                 description: "The type of resource, e.g., 'user'"
+  //               }
+  //           }
+  //       },
+  //       assignee_status: { 
+  //         type: "string" ,
+  //         description: "The status of the assignee, e.g., 'active', 'away', 'locked', 'deactivated'"
+  //       },
+  //       completed: { 
+  //         type: "boolean",
+  //         description: "Indicates whether the task is completed"
+  //        },
+  //       completed_at: { 
+  //         type: "string", nullable: true ,
+  //         description: "The date and time when the task was completed, in ISO 8601 format"
+  //       },
+  //       created_at: { 
+  //         type: "string", 
+  //         description: "The date and time when the task was created, in ISO 8601 format" 
+  //       }, 
+  //       due_at: { 
+  //         type: "string", nullable: true , 
+  //         description: "The date and time when the task is due, in ISO 8601 format" 
+  //       },
+  //       due_on: { 
+  //         type: "string", nullable: true ,
+  //         description: "The date when the task is due, in YYYY-MM-DD format"
+  //       },
+  //       followers: {
+  //           type: "array",
+  //           description: "List of users following the task",
+  //           items: {
+  //               type: "object",
+  //               properties: {
+  //                   gid: { type: "string" },
+  //                   name: { type: "string" },
+  //                   resource_type: { type: "string" }
+  //               }
+  //           }
+  //       },
+  //       hearted: { type: "boolean" ,
+  //         description: "Indicates whether the task has been hearted by the user"
+  //       },
+  //       hearts: { type: "array", items: { type: "object" } ,
+  //         description: "List of users who have hearted the task"
+  //       },
+  //       liked: { type: "boolean" ,
+  //         description: "Indicates whether the task has been liked by the user"
+  //       },
+  //       likes: { type: "array", items: { type: "object" } ,
+  //         description: "List of users who have liked the task"
+  //       },
+  //       memberships: { type: "array", items: { type: "object" } ,
+  //         description: "List of memberships associated with the task, including projects and sections"
+  //       },
+  //       modified_at: { type: "string" ,
+  //         description: "The date and time when the task was last modified, in ISO 8601 format"
+  //       },
+  //       name: { type: "string" ,
+  //         description: "The name of the task"
+  //       },
+  //       notes: { type: "string" ,
+  //         description: "The description or notes for the task"
+  //       },
+  //       num_hearts: { type: "number" ,
+  //         description: "The number of hearts the task has received"
+  //       },
+  //       num_likes: { type: "number" ,
+  //         description: "The number of likes the task has received"
+  //       },
+  //       parent: {
+  //           type: "object",
+  //           description: "The parent task if this is a subtask",
+  //           properties: {
+  //               gid: { type: "string" },
+  //               name: { type: "string" },
+  //               resource_type: { type: "string" },
+  //               resource_subtype: { type: "string" }
+  //           }
+  //       },
+  //       projects: { type: "array", items: { type: "object" } ,
+  //         description: "List of projects the task is associated with"
+  //       },
+  //       resource_type: { type: "string" ,
+  //         description: "The type of resource, e.g., 'task'"
+  //       },
+  //       start_at: { type: "string", nullable: true },
+  //       start_on: { type: "string", nullable: true },
+  //       tags: { type: "array", items: { type: "object" } },
+  //       resource_subtype: { type: "string" },
+  //       workspace: {
+  //           type: "object",
+  //           properties: {
+  //               gid: { type: "string" },
+  //               name: { type: "string" },
+  //               resource_type: { type: "string" }
+  //           }
+  //       },
+  //       subtasks: { type: "array", items: { type: "object" } },
+  //       comments: {
+  //           type: "array",
+  //           description: "List of comments on the task",
+  //           items: {
+  //               type: "object",
+  //               properties: {
+  //                   gid: { type: "string" },
+  //                   created_at: { type: "string" },
+  //                   created_by: {
+  //                       type: "object",
+  //                       properties: {
+  //                           gid: { type: "string" },
+  //                           name: { type: "string" },
+  //                           resource_type: { type: "string" }
+  //                       }
+  //                   },
+  //                   resource_type: { type: "string" },
+  //                   text: { type: "string" },
+  //                   type: { type: "string" },
+  //                   resource_subtype: { type: "string" }
+  //               }
+  //           }
+  //       },
+  //       timeline: {
+  //           type: "array",
+  //           description: "List of timeline events for the task, status updates such as assignments, completions, etc.",
+  //           items: {
+  //               type: "object",
+  //               properties: {
+  //                   gid: { type: "string" },
+  //                   created_at: { type: "string" },
+  //                   created_by: {
+  //                       type: "object",
+  //                       properties: {
+  //                           gid: { type: "string" },
+  //                           name: { type: "string" },
+  //                           resource_type: { type: "string" }
+  //                       }
+  //                   },
+  //                   resource_type: { type: "string" },
+  //                   text: { type: "string" },
+  //                   type: { type: "string" },
+  //                   resource_subtype: { type: "string" }
+  //               }
+  //           }
+  //       }
+  //   }
+  // }
 
 };
 
