@@ -144,6 +144,8 @@ export class AsanaClientWrapper {
     transformedData.dependencies = await this.getTaskDependencies(task_gid);
     transformedData.dependents = await this.getTaskDependents(task_gid);
 
+    transformedData.attachments = await this.getAttachmentsForTask(task_gid);
+
     return transformedData;
   }
 
