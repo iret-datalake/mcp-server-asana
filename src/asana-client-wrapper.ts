@@ -9,6 +9,7 @@ export class AsanaClientWrapper {
   private projectStatuses: any;
   private tags: any;
   private customFieldSettings: any;
+  private attachments: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -22,6 +23,7 @@ export class AsanaClientWrapper {
     this.projectStatuses = new Asana.ProjectStatusesApi();
     this.tags = new Asana.TagsApi();
     this.customFieldSettings = new Asana.CustomFieldSettingsApi();
+    this.attachments = new Asana.AttachmentsApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -88,7 +90,8 @@ export class AsanaClientWrapper {
     if (is_blocking !== undefined) searchParams.is_blocking = is_blocking;
     if (sort_by) searchParams.sort_by = sort_by;
     if (sort_ascending !== undefined) searchParams.sort_ascending = sort_ascending;
-    if (opt_fields) searchParams.opt_fields = opt_fields;
+    const defaultFields = 'gid,name,completed,created_at,modified_at,resource_subtype,custom_fields,assignee.name';
+    if (opt_fields) searchParams.opt_fields = opt_fields+','+defaultFields || defaultFields;
     const workspace = input_workspace || process.env.ASANA_DEFAULT_WORKSPACE || 'default_workspace_gid'
 
     const response = await this.tasks.searchTasksForWorkspace(workspace, searchParams);
@@ -359,8 +362,7 @@ export class AsanaClientWrapper {
   }
 
   async getAttachmentsForTask( task_gid: string, opts: any = {} ) {
-    const attachmentsApiInstance = new Asana.AttachmentsApi();
-    const response = await attachmentsApiInstance.getAttachmentsForObject(task_gid, opts = {
+    const response = await this.attachments.getAttachmentsForObject(task_gid, opts = {
         opt_fields: "gid"
     });
 
@@ -368,7 +370,7 @@ export class AsanaClientWrapper {
 
     const attachments = await Promise.all(
     response.data.map(async (attachment: any) => {
-      const detailedAttachment = await attachmentsApiInstance.getAttachment(attachment.gid, opts = {
+      const detailedAttachment = await this.attachments.getAttachment(attachment.gid, opts = {
         opt_fields: "gid,name,download_url,resource_subtype"
       });
       return detailedAttachment.data; //  Returnthe detailed attachment data
