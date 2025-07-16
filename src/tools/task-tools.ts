@@ -664,3 +664,22 @@ export const getTimelineForTaskTool: Tool = {
   }
 };
 
+export const getTaskAttachmentsTool: Tool = {
+  name: "asana_get_task_attachments",
+  description: "Get all attachments for a specific task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task ID to retrieve attachments for"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    }
+  },
+  required: ["task_gid"]
+}; 
+

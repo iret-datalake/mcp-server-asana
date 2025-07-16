@@ -355,4 +355,24 @@ export class AsanaClientWrapper {
     const response = await this.tags.getTagsForWorkspace(workspace_gid, opts);
     return response.data;
   }
+
+  async getAttachmentsForTask( task_gid: string, opts: any = {} ) {
+    const attachmentsApiInstance = new Asana.AttachmentsApi();
+    const response = await attachmentsApiInstance.getAttachmentsForObject(task_gid, opts = {
+        opt_fields: "gid"
+    });
+
+    // return response.data;
+
+    const attachments = await Promise.all(
+    response.data.map(async (attachment: any) => {
+      const detailedAttachment = await attachmentsApiInstance.getAttachment(attachment.gid, opts = {
+        opt_fields: "gid,name,download_url,resource_subtype"
+      });
+      return detailedAttachment.data; //  Returnthe detailed attachment data
+    }));
+    
+    return attachments;
+  }
+
 }

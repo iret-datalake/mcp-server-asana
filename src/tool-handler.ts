@@ -24,7 +24,8 @@ import {
   getMultipleTasksByGidTool,
   getSubtasksTool,
   getCommentsForTaskTool,
-  getTimelineForTaskTool
+  getTimelineForTaskTool,
+  getTaskAttachmentsTool,
 } from './tools/task-tools.js';
 import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
 import {
@@ -67,7 +68,8 @@ const all_tools: Tool[] = [
   getTagsForWorkspaceTool,
   getSubtasksTool,
   getCommentsForTaskTool,
-  getTimelineForTaskTool
+  getTimelineForTaskTool,
+  getTaskAttachmentsTool,
 ];
 
 // List of tools that only read Asana state
@@ -89,7 +91,8 @@ const READ_ONLY_TOOLS = [
   'asana_get_comments_for_task',
   'asana_get_timeline_for_task',
   'asana_get_task_dependencies',
-  'asana_get_task_dependents'
+  'asana_get_task_dependents',
+  'asana_get_task_attachments',
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -477,6 +480,15 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
         }
+
+        case "asana_get_task_attachments": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getAttachmentsForTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
 
         default:
           throw new Error(`Unknown tool: ${request.params.name}`);
