@@ -90,7 +90,7 @@ export class AsanaClientWrapper {
     if (is_blocking !== undefined) searchParams.is_blocking = is_blocking;
     if (sort_by) searchParams.sort_by = sort_by;
     if (sort_ascending !== undefined) searchParams.sort_ascending = sort_ascending;
-    const defaultFields = 'gid,name,completed,created_at,modified_at,resource_subtype,custom_fields,assignee.name,notes,permalink_url';
+    const defaultFields = 'gid,name,completed,created_at,modified_at,resource_subtype,custom_fields,assignee.name,notes,permalink_url,projects.name';
     if (opt_fields !== undefined) {
       searchParams.opt_fields = opt_fields + ',' + defaultFields;
     } else {
