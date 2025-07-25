@@ -119,10 +119,6 @@ export class AsanaClientWrapper {
           return acc;
         }, {})
       };
-    }).map((task: any) => { 
-      // add permalink to the task
-      task.permalink = `https://app.asana.com/0/0/${task.gid}`;
-      return task;
     });
 
     transformedData.searchParams = searchParams; // Include the search parameters in the response
