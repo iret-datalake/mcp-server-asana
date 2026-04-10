@@ -43,6 +43,8 @@ export class AsanaClientWrapper {
   async searchTasks( searchOpts: any = {}) {
     // Extract known parameters
     const {
+      workspace,
+      workspace_gid,
       input_workspace,
       text,
       resource_subtype,
@@ -96,9 +98,14 @@ export class AsanaClientWrapper {
     } else {
       searchParams.opt_fields = defaultFields;
     }
-    const workspace = input_workspace || process.env.ASANA_DEFAULT_WORKSPACE || 'default_workspace_gid'
+    const resolvedWorkspace =
+      workspace ||
+      workspace_gid ||
+      input_workspace ||
+      process.env.ASANA_DEFAULT_WORKSPACE ||
+      'default_workspace_gid';
 
-    const response = await this.tasks.searchTasksForWorkspace(workspace, searchParams);
+    const response = await this.tasks.searchTasksForWorkspace(resolvedWorkspace, searchParams);
 
     // Transform the response to simplify custom fields if present
     const transformedData = response.data.map((task: any) => {
